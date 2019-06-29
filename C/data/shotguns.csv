@@ -1,0 +1,4 @@
+Name,Damage/Pellet,Pierce,Pellets/shot,Rate of Fire,Capacity,Reload Time
+Shotlite Tempest;[110.0, 200.0, 300.0];[1.0, 1.0, 1.0];5;8 rps;70;2.6 sec
+HVM 004;[70.0, 120.0, 180.0];[2.0, 2.0, 2.0];6;10 rps;25;2.4 sec
+RIA 30 Strikeforce;[130.0, 320.0, 480.0];[2.0, 2.0, 2.0];8;2 rps;10;2 sec

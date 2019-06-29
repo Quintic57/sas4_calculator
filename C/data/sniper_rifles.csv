@@ -1,0 +1,5 @@
+Name,Damage/Pellet,Pierce,Pellets/shot,Rate of Fire,Capacity,Reload Time
+Hornet;[800.0, 1850.0, 2775.0];[3.0, 4.0, 4.0];1;5 rps;30;2.4 sec
+CM 800 Jupiter;[465.0, 823.0, 1234.5];[4.0, 4.0, 4.0];1;6 rps;89;4.5 sec
+Hornet;[800.0, 1850.0, 2775.0];[3.0, 4.0, 4.0];1;5 rps;30;2.4 sec
+CM 800 Jupiter;[465.0, 823.0, 1234.5];[4.0, 4.0, 4.0];1;6 rps;89;4.5 sec
