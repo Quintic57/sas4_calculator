@@ -18,7 +18,23 @@ Weapon* smgs;
 Weapon* sniper_rifles;
 
 void init() {
-    /*Init the data structures*/
+    /*Init the data structures
+    Note: If you set the big daddy array first, each element of that array will
+    be a pointer to the place in memory where each sub-array is declared. But if
+    you then initialize each of those sub-arrays by using malloc, it then points
+    them to a different area in memory and big daddy array now has all of the
+    wrong pointers. See whereas Java stores references, C stores addresses*/
+    assault_rifles = calloc(NUM_ASSAULT_RIFLES, sizeof(Weapon));
+    disc_throwers = calloc(NUM_DISC_THROWERS, sizeof(Weapon));
+    flame_throwers = calloc(NUM_FLAME_THROWERS, sizeof(Weapon));
+    lasers = calloc(NUM_LASERS, sizeof(Weapon));
+    rocket_launchers = calloc(NUM_ROCKET_LAUNCHERS, sizeof(Weapon));
+    lmgs = calloc(NUM_LMGS, sizeof(Weapon));
+    pistols = calloc(NUM_PISTOLS, sizeof(Weapon));
+    shotguns = calloc(NUM_SHOTGUNS, sizeof(Weapon));
+    smgs = calloc(NUM_SMGS, sizeof(Weapon));
+    sniper_rifles = calloc(NUM_SNIPER_RIFLES, sizeof(Weapon));
+
     // Big daddy weapons array: 
     weapons = calloc(NUM_WEAPON_CATEGORIES, sizeof(Weapon*));
     weapons[ASSAULT_RIFLES] = assault_rifles;
@@ -31,17 +47,6 @@ void init() {
     weapons[SHOTGUNS] = shotguns;
     weapons[SMGS] = smgs;
     weapons[SNIPER_RIFLES] = sniper_rifles;
-
-    assault_rifles = calloc(NUM_ASSAULT_RIFLES, sizeof(Weapon));
-    disc_throwers = calloc(NUM_DISC_THROWERS, sizeof(Weapon));
-    flame_throwers = calloc(NUM_FLAME_THROWERS, sizeof(Weapon));
-    lasers = calloc(NUM_LASERS, sizeof(Weapon));
-    rocket_launchers = calloc(NUM_ROCKET_LAUNCHERS, sizeof(Weapon));
-    lmgs = calloc(NUM_LMGS, sizeof(Weapon));
-    pistols = calloc(NUM_PISTOLS, sizeof(Weapon));
-    shotguns = calloc(NUM_SHOTGUNS, sizeof(Weapon));
-    smgs = calloc(NUM_SMGS, sizeof(Weapon));
-    sniper_rifles = calloc(NUM_SNIPER_RIFLES, sizeof(Weapon));
 
     /*Parse the CSVs and get that juicy data*/
     for (int category_num = 0; category_num < NUM_WEAPON_CATEGORIES; category_num++) {
@@ -78,56 +83,39 @@ void init() {
             snprintf(category_buf, sizeof(category_buf), "%s",
                 "../data/sniper_rifles.csv");
         }
-        // printf("%s\n", category_buf);
-        // FILE *fp = fopen(category_buf, "r");
-        // char buf[1024];
+        printf("%s\n", category_buf);
+        FILE *fp = fopen(category_buf, "r");
+        char buf[1024];
 
-        // if (!fp) {
-        //     printf("Can't open file\n");
-        //     return;
-        // }
-
-        // int i = 0;
-        // while (fgets(buf, 1024, fp)) {
-        //     if (i != 0) {
-        //         parse_csv_field(buf, assault_rifles, i);
-        //     }
-        //     i++;
-        // }
-
-        // fclose(fp);
-    }
-
-    FILE *fp = fopen("../data/assault_rifles.csv", "r");
-    char buf[1024];
-
-    if (!fp) {
-        printf("Can't open file\n");
-        return;
-    }
-
-    int i = 0;
-    while (fgets(buf, 1024, fp)) {
-        if (i != 0) {
-            parse_csv_field(buf, assault_rifles, i);
+        if (!fp) {
+            printf("Can't open file\n");
+            return;
         }
-        i++;
-    }
 
-    fclose(fp);
+        int i = 0;
+        while (fgets(buf, 1024, fp)) {
+            if (i != 0) {
+                parse_csv_field(buf, weapons[category_num], i);
+                // parse_csv_field(buf, assault_rifles, i);
+            }
+            i++;
+        }
+
+        fclose(fp);
+    }
 }
 
 void parse_csv_field(char* row, Weapon* category, int i) {
     int attribute = 0;
 
-    // printf("%s\n", buf);
+    // printf("Row: %s\n", row);
     // printf("i is %i", i);
     for (char* field = strtok(row, ";"); field != NULL; field = strtok(NULL, ";")) {
-        // printf("%s\n", field);
         char* temp = strdup(field);
 
         // TODO: Think I can clean up some of these
         if (attribute == NAME) {
+            // printf("%i\n", i);
             category[i - 1].name = temp;
         } else if (attribute == DMG) {
             double* dmg = parse_csv_array(temp);
